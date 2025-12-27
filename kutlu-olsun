@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>İyi ki Doğdun Sena</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%}
+
+body{
+  font-family:Arial,sans-serif;
+  background:radial-gradient(circle at top,#0b132b 0%,#02030f 80%);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:background .5s;
+}
+
+/* Stars */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image:
+    radial-gradient(1px 1px at 20% 30%,#fff 50%,transparent 51%),
+    radial-gradient(1px 1px at 80% 20%,#fff 50%,transparent 51%),
+    radial-gradient(1px 1px at 60% 70%,#fff 50%,transparent 51%),
+    radial-gradient(1px 1px at 30% 80%,#fff 50%,transparent 51%),
+    radial-gradient(1px 1px at 90% 60%,#fff 50%,transparent 51%);
+  opacity:.6;
+  pointer-events:none;
+}
+
+.container{
+  position:relative;
+  z-index:1;
+  text-align:center;
+  max-width:600px;
+  padding:24px;
+}
+
+h1{font-size:36px;margin-bottom:6px}
+.name{opacity:.85;margin-bottom:24px}
+
+.card{
+  background:rgba(255,255,255,.15);
+  border-radius:16px;
+  padding:24px;
+  line-height:1.6;
+}
+
+.countdown{margin-top:24px;font-size:18px}
+
+#surprise{
+  display:none;
+  margin-top:20px;
+  font-size:22px;
+  color:#ff9ecb;
+}
+
+.music{margin-top:26px}
+
+/* Candle */
+.candle-wrap{
+  margin-top:32px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+}
+.candle{
+  width:28px;
+  height:90px;
+  background:linear-gradient(#ffe1b3,#ffb703);
+  border-radius:12px;
+  position:relative;
+  cursor:pointer;
+}
+.flame{
+  position:absolute;
+  top:-24px;
+  left:50%;
+  transform:translateX(-50%);
+  width:18px;
+  height:24px;
+  background:radial-gradient(circle,#fff7c2 0%,#ff9f1c 60%,transparent 72%);
+  border-radius:50%;
+  animation:flicker .2s infinite;
+}
+@keyframes flicker{
+  0%{transform:translateX(-50%) scale(1)}
+  100%{transform:translateX(-50%) scale(.85)}
+}
+.flame.out{display:none}
+.hint{font-size:14px;opacity:.8}
+
+/* Night toggle */
+.toggle{
+  position:fixed;
+  top:16px;
+  right:16px;
+  background:rgba(255,255,255,.15);
+  border:none;
+  color:#fff;
+  padding:8px 12px;
+  border-radius:20px;
+  cursor:pointer;
+}
+
+/* Light mode */
+body.light{
+  background:#f4f4f4;
+  color:#222;
+}
+body.light::before{opacity:.15}
+
+@media(max-width:600px){
+  h1{font-size:30px}
+  .card{font-size:16px}
+}
+</style>
+</head>
+
+<body>
+
+<button class="toggle" id="modeBtn">🌙</button>
+
+<div class="container">
+  <h1>İyi ki Doğdun</h1>
+  <div class="name">Sena 🌸</div>
+
+  <div class="card">
+    Bugün senin günün.<br><br>
+    Yeni yaşın sana mutluluk, huzur ve kalbinden geçen
+    tüm güzel şeyleri getirsin. İyi ki varsın.
+  </div>
+
+  <div class="countdown" id="countdown"></div>
+  <div id="surprise">🎉 İYİ Kİ DOĞDUN SENA 🎉</div>
+
+  <div class="music">
+    <iframe style="border-radius:12px"
+      src="https://open.spotify.com/embed/track/2X485T9Z5Ly0xyaghN73ed"
+      width="300" height="80" frameborder="0" allow="encrypted-media">
+    </iframe>
+  </div>
+
+  <div class="candle-wrap">
+    <div class="candle" id="candle">
+      <div class="flame" id="flame"></div>
+    </div>
+    <div class="hint">Muma dokun ve dilek tut ✨</div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded",()=>{
+
+/* Countdown */
+const countdown=document.getElementById("countdown");
+const surprise=document.getElementById("surprise");
+
+function update(){
+  const now=new Date();
+  let y=now.getFullYear();
+  let t=new Date(y,0,1,0,0,0);
+  if(now>t)t=new Date(y+1,0,1,0,0,0);
+
+  const diff=t-now;
+  if(diff<=0){
+    countdown.style.display="none";
+    surprise.style.display="block";
+    return;
+  }
+
+  const d=Math.floor(diff/86400000);
+  const h=Math.floor(diff%86400000/3600000);
+  const m=Math.floor(diff%3600000/60000);
+  const s=Math.floor(diff%60000/1000);
+
+  countdown.textContent=`${d} gün ${h} saat ${m} dk ${s} sn`;
+}
+setInterval(update,1000);
+update();
+
+/* Candle */
+const candle=document.getElementById("candle");
+const flame=document.getElementById("flame");
+candle.addEventListener("click",()=>{
+  if(!flame.classList.contains("out")){
+    flame.classList.add("out");
+    const msg=document.createElement("div");
+    msg.textContent="✨ Dileğin kabul olsun ✨";
+    msg.style.marginTop="12px";
+    msg.style.color="#ffb703";
+    candle.parentElement.appendChild(msg);
+  }
+});
+
+/* Night mode */
+const btn=document.getElementById("modeBtn");
+btn.addEventListener("click",()=>{
+  document.body.classList.toggle("light");
+  btn.textContent=document.body.classList.contains("light")?"☀️":"🌙";
+});
+
+});
+</script>
+
+</body>
+</html>
