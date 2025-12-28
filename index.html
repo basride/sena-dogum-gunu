@@ -4,238 +4,223 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>İyi ki Doğdun Sena</title>
-
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;height:100%}
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Montserrat:wght@300;600&display=swap');
 
-body{
-  font-family:Arial,sans-serif;
-  background:radial-gradient(circle at top,#0b132b 0%,#02030f 80%);
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+        font-family: 'Montserrat', sans-serif;
+        background: radial-gradient(circle at top, #0d1b2a 0%, #000814 100%);
+        color: #fff;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow-x: hidden;
+        transition: 0.8s;
+        padding: 40px 0;
+    }
+    body.light { background: #fff5f8; color: #333; }
 
-/* Stars */
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background-image:
-    radial-gradient(1px 1px at 20% 30%,#fff 50%,transparent 51%),
-    radial-gradient(1px 1px at 80% 20%,#fff 50%,transparent 51%),
-    radial-gradient(1px 1px at 60% 70%,#fff 50%,transparent 51%),
-    radial-gradient(1px 1px at 30% 80%,#fff 50%,transparent 51%),
-    radial-gradient(1px 1px at 90% 60%,#fff 50%,transparent 51%);
-  opacity:.6;
-  pointer-events:none;
-}
+    /* Takımyıldız Arka Plan */
+    #constellation-svg {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        pointer-events: none; z-index: 1; opacity: 0.3; transition: 2s ease;
+    }
+    .const-star { fill: #fff; filter: blur(0.5px); animation: twinkle 3s infinite; }
+    .const-line { stroke: rgba(255,255,255,0.08); stroke-width: 1; transition: 1s; }
 
-.container{
-  position:relative;
-  z-index:1;
-  text-align:center;
-  max-width:600px;
-  padding:24px;
-}
+    /* Dilek Uçunca Parlama Efekti */
+    body.wishing #constellation-svg { opacity: 0.8; transform: scale(1.05); }
+    body.wishing .const-line { stroke: rgba(255,158,203,0.5); stroke-width: 2; }
+    @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
-h1{font-size:36px;margin-bottom:6px}
-.name{opacity:.85;margin-bottom:24px}
+    /* Kalbimin Ritmi */
+    .heart-container { position: fixed; bottom: 80px; right: 30px; z-index: 200; cursor: pointer; }
+    .pulsing-heart { font-size: 35px; color: #ff4d6d; animation: heartBeat 1.2s infinite ease-in-out; }
+    .heart-note { position: absolute; bottom: 45px; right: 0; background: #ff9ecb; color: white; font-size: 11px; padding: 5px 10px; border-radius: 15px; white-space: nowrap; opacity: 0; transition: 0.3s; pointer-events: none; }
+    .heart-container:hover .heart-note { opacity: 1; transform: translateY(-5px); }
+    @keyframes heartBeat { 0%, 30%, 60% { transform: scale(1); } 15%, 45% { transform: scale(1.2); } }
 
-.card{
-  background:rgba(255,255,255,.15);
-  border-radius:16px;
-  padding:24px;
-  line-height:1.6;
-}
+    /* Başlık ve Yan Çiçekler */
+    .header-group { margin-bottom: 25px; text-align: center; z-index: 100; }
+    .top-wish { font-size: 14px; letter-spacing: 6px; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 8px; }
+    .name-wrapper { display: flex; align-items: center; justify-content: center; gap: 15px; }
+    .name { font-size: 45px; font-weight: bold; color: #ff9ecb; letter-spacing: 2px; }
+    .side-flower { font-size: 30px; animation: bounce 2s infinite ease-in-out; }
+    @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
-.countdown{margin-top:24px;font-size:18px}
+    /* Ana Kart */
+    .main-card {
+        background: rgba(255, 255, 255, 0.04); backdrop-filter: blur(12px);
+        border-radius: 30px; padding: 35px; border: 1px solid rgba(255, 255, 255, 0.1);
+        width: 90%; max-width: 420px; z-index: 100; text-align: center; margin-bottom: 20px;
+    }
+    body.light .main-card { background: rgba(255, 255, 255, 0.9); color: #333; }
 
-#surprise{
-  display:none;
-  margin-top:20px;
-  font-size:22px;
-  color:#ff9ecb;
-}
+    /* Yeni Doğum Günü Metni Tasarımı */
+    .birthday-text { font-size: 15px; line-height: 1.8; margin-bottom: 25px; font-weight: 300; font-style: normal; }
 
-.music{margin-top:26px}
+    /* Kapaklı Kavanoz */
+    .mini-jar { 
+        width: 55px; height: 70px; margin: 10px auto 10px; background: rgba(255,255,255,0.1); 
+        border: 2px solid rgba(255,255,255,0.2); border-radius: 10px 10px 20px 20px; 
+        cursor: pointer; position: relative; display: flex; align-items: center; justify-content: center; transition: 0.3s; 
+    }
+    .mini-jar::before { content: ''; position: absolute; top: -8px; left: 50%; transform: translateX(-50%); width: 42px; height: 10px; background: #ff9ecb; border-radius: 4px; }
+    .jar-label { font-size: 9px; font-weight: bold; background: #fff; color: #333; padding: 2px 6px; border-radius: 2px; }
 
-/* Candle */
-.candle-wrap{
-  margin-top:32px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:8px;
-}
-.candle{
-  width:28px;
-  height:90px;
-  background:linear-gradient(#ffe1b3,#ffb703);
-  border-radius:12px;
-  position:relative;
-  cursor:pointer;
-}
-.flame{
-  position:absolute;
-  top:-24px;
-  left:50%;
-  transform:translateX(-50%);
-  width:18px;
-  height:24px;
-  background:radial-gradient(circle,#fff7c2 0%,#ff9f1c 60%,transparent 72%);
-  border-radius:50%;
-  animation:flicker .2s infinite;
-}
-@keyframes flicker{
-  0%{transform:translateX(-50%) scale(1)}
-  100%{transform:translateX(-50%) scale(.85)}
-}
-.flame.out{display:none}
-.hint{font-size:14px;opacity:.8}
+    /* Papatya */
+    .papatya { width: 100px; height: 100px; position: relative; margin: 20px auto; }
+    .papatya-center { width: 25px; height: 25px; background: #ffcc00; border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10; }
+    .petal { width: 16px; height: 45px; background: #fff; border-radius: 10px; position: absolute; left: 42px; bottom: 50px; transform-origin: bottom center; transition: 0.4s; cursor: pointer; border: 1px solid #eee; }
+    .petal.plucked { opacity: 0; transform: translateY(-40px) rotate(20deg); pointer-events: none; }
 
-/* Night toggle */
-.toggle{
-  position:fixed;
-  top:16px;
-  right:16px;
-  background:rgba(255,255,255,.15);
-  border:none;
-  color:#fff;
-  padding:8px 12px;
-  border-radius:20px;
-  cursor:pointer;
-}
+    /* Dilek Bölümü */
+    .wish-balloon-section { width: 90%; max-width: 420px; background: rgba(255,255,255,0.03); padding: 25px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.1); z-index: 100; text-align: center; }
+    .balloon-input { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #ff9ecb88; background: rgba(255,255,255,0.05); color: white; margin-bottom: 12px; outline: none; }
+    .balloon-button { background: #ff9ecb; color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-weight: 600; }
 
-/* Popup */
-.popup{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%);
-  background:rgba(255,255,255,.2);
-  padding:12px 18px;
-  border-radius:14px;
-  font-size:14px;
-  animation:fade 4s forwards;
-  z-index:5;
-}
-@keyframes fade{
-  0%{opacity:0}
-  15%{opacity:1}
-  100%{opacity:0}
-}
+    /* Fener Animasyonu */
+    .lantern {
+        position: fixed; width: 15px; height: 20px; background: rgba(255, 200, 100, 0.8);
+        border-radius: 5px; box-shadow: 0 0 15px #ffcc00; pointer-events: none; z-index: 2;
+        animation: riseUp 10s linear forwards;
+    }
+    @keyframes riseUp {
+        0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+    }
+
+    .time-note { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); font-family: 'Dancing Script', cursive; font-size: 18px; color: #ff9ecb; z-index: 200; opacity: 0; animation: fadeInOut 8s infinite; }
+    @keyframes fadeInOut { 0%, 100% { opacity: 0; } 20%, 80% { opacity: 1; } }
+
+    #fw-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; }
+    .countdown { font-size: 16px; color: #ff9ecb; font-weight: 600; margin: 10px 0; }
+    .theme-btn { position: fixed; top: 20px; right: 20px; border: none; background: rgba(255,255,255,0.1); color: #fff; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 200; }
 </style>
 </head>
-
 <body>
 
-<button class="toggle" id="modeBtn">🌙</button>
+<svg id="constellation-svg" viewBox="0 0 1000 1000">
+    <line class="const-line" x1="300" y1="400" x2="450" y2="450" />
+    <line class="const-line" x1="450" y1="450" x2="600" y2="420" />
+    <line class="const-line" x1="600" y1="420" x2="700" y2="550" />
+    <line class="const-line" x1="700" y1="550" x2="550" y2="700" />
+    <line class="const-line" x1="550" y1="700" x2="350" y2="650" />
+    <line class="const-line" x1="350" y1="650" x2="300" y2="400" />
+    <circle class="const-star" cx="300" cy="400" r="3" />
+    <circle class="const-star" cx="450" cy="450" r="4" />
+    <circle class="const-star" cx="600" cy="420" r="3" />
+    <circle class="const-star" cx="700" cy="550" r="5" />
+    <circle class="const-star" cx="550" cy="700" r="4" />
+    <circle class="const-star" cx="350" cy="650" r="3" />
+</svg>
 
-<div class="container">
-  <h1>İyi ki Doğdun</h1>
-  <div class="name">Sena 🌸</div>
+<canvas id="fw-canvas"></canvas>
+<button class="theme-btn" id="themeBtn">🌙</button>
 
-  <div class="card">
-    Bugün senin günün.<br><br>
-    Yeni yaşın sana mutluluk, huzur ve kalbinden geçen
-    tüm güzel şeyleri getirsin. İyi ki varsın.
-  </div>
-
-  <div class="countdown" id="countdown"></div>
-  <div id="surprise">🎉 İYİ Kİ DOĞDUN SENA 🎉</div>
-
-  <div class="music">
-    <iframe style="border-radius:12px"
-      src="https://open.spotify.com/embed/track/2X485T9Z5Ly0xyaghN73ed"
-      width="300" height="80" frameborder="0" allow="encrypted-media"></iframe>
-  </div>
-
-  <div class="candle-wrap">
-    <div class="candle" id="candle">
-      <div class="flame" id="flame"></div>
-    </div>
-    <div class="hint">Muma dokun ve dilek tut ✨</div>
-  </div>
+<div class="heart-container">
+    <div class="heart-note">Sena için çarpıyor... ❤️</div>
+    <div class="pulsing-heart">❤️</div>
 </div>
 
+<div class="header-group">
+    <div class="top-wish">İyi Ki Doğdun</div>
+    <div class="name-wrapper">
+        <span class="side-flower">🌸</span>
+        <span class="name">SENA</span>
+        <span class="side-flower">🌸</span>
+    </div>
+</div>
+
+<div class="main-card">
+    <p class="birthday-text">
+        Girdiğin bu yeni yaş, tüm cesaretini ve gülümsemeni ödüllendirsin. <br>
+        Dünyayı güzelleştiren o enerjin hiç bitmesin. <br>
+        Mutlu yıllar!
+    </p>
+    
+    <div id="countdown" class="countdown"></div>
+    <div class="mini-jar" id="jar"><div class="jar-label">DİLEK</div></div>
+    <div id="wish-text" style="min-height: 40px; margin-top: 10px; font-style: italic; color: #7bed9f;"></div>
+    
+    <div class="papatya" id="papatya"><div class="papatya-center"></div></div>
+    <p id="result-text" style="color: #ff9ecb; font-size: 14px; min-height: 20px; font-weight: bold;"></p>
+</div>
+
+<div class="wish-balloon-section">
+    <input type="text" id="wish-input" class="balloon-input" placeholder="Dileğini gökyüzüne yaz...">
+    <button class="balloon-button" id="send-wish-button">Dileği Uçur</button>
+</div>
+
+<div class="time-note" id="time-note"></div>
+
 <script>
-/* 1️⃣ Sekme başlığı */
-const originalTitle = document.title;
-document.addEventListener("visibilitychange",()=>{
-  document.title = document.hidden
-    ? "Gitmeden önce bir gülümseme bıraktım ✨"
-    : originalTitle;
-});
+    document.addEventListener('mousemove', (e) => {
+        const s = document.createElement('div');
+        s.style.cssText = `position:fixed; left:${e.clientX}px; top:${e.clientY}px; width:2px; height:2px; background:#fff; border-radius:50%; pointer-events:none; z-index:999; animation:fadeOut 0.8s forwards;`;
+        document.body.appendChild(s);
+        setTimeout(() => s.remove(), 800);
+    });
 
-/* 2️⃣ Bildirim */
-if ("Notification" in window) {
-  setTimeout(()=>{
-    if (Notification.permission === "default") {
-      Notification.requestPermission().then(p=>{
-        if(p==="granted"){
-          new Notification("💖 Küçük bir sürpriz",{
-            body:"Buraya gelmiş olman bile yeterince güzel."
-          });
+    document.getElementById('send-wish-button').onclick = function() {
+        const input = document.getElementById('wish-input');
+        if (input.value.trim()) {
+            document.body.classList.add('wishing');
+            for(let i=0; i<15; i++) {
+                setTimeout(() => {
+                    const lantern = document.createElement('div');
+                    lantern.className = 'lantern';
+                    lantern.style.left = Math.random() * 100 + '%';
+                    lantern.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                    document.body.appendChild(lantern);
+                    setTimeout(() => lantern.remove(), 10000);
+                }, i * 300);
+            }
+            setTimeout(() => document.body.classList.remove('wishing'), 10000);
+            input.value = '';
         }
-      });
+    };
+
+    const pContainer = document.getElementById('papatya');
+    for(let i=0; i<12; i++) {
+        const pet = document.createElement('div');
+        pet.className = 'petal';
+        pet.style.transform = `rotate(${i * 30}deg)`;
+        pet.onclick = function() {
+            this.classList.add('plucked');
+            const left = document.querySelectorAll('.petal:not(.plucked)').length;
+            document.getElementById('result-text').innerText = left > 0 ? (i % 2 === 0 ? "Seviyor" : "Çok Seviyor") : "Seni Çok Seviyor! 🌸";
+        };
+        pContainer.appendChild(pet);
     }
-  },4000);
-}
 
-/* 3️⃣ Daha önce gelmiştin */
-if(localStorage.getItem("visited")){
-  const pop=document.createElement("div");
-  pop.className="popup";
-  pop.textContent="✨ Buraya daha önce gelmiştin";
-  document.body.appendChild(pop);
-  setTimeout(()=>pop.remove(),4000);
-}else{
-  localStorage.setItem("visited","yes");
-}
+    const wishes = ["Mucizelere hazır ol!", "Bu yıl çok güleceksin!", "Şans hep seninle!", "Hayallerin gerçek oluyor!"];
+    document.getElementById('jar').onclick = () => document.getElementById('wish-text').innerText = "✨ " + wishes[Math.floor(Math.random()*wishes.length)];
 
-/* Countdown */
-const countdown=document.getElementById("countdown");
-const surprise=document.getElementById("surprise");
+    function updateCD() {
+        const target = new Date(new Date().getFullYear(), 0, 1);
+        if (new Date() > target) target.setFullYear(target.getFullYear() + 1);
+        const diff = target - new Date();
+        const d = Math.floor(diff / 86400000);
+        const h = Math.floor((diff % 86400000) / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        document.getElementById('countdown').innerText = `${d}g ${h}s ${m}d ${s}sn`;
+    }
+    setInterval(updateCD, 1000);
 
-function update(){
-  const now=new Date();
-  let y=now.getFullYear();
-  let t=new Date(y,0,1,0,0,0);
-  if(now>t)t=new Date(y+1,0,1,0,0,0);
-  const diff=t-now;
-  if(diff<=0){
-    countdown.style.display="none";
-    surprise.style.display="block";
-    return;
-  }
-  const d=Math.floor(diff/86400000);
-  const h=Math.floor(diff%86400000/3600000);
-  const m=Math.floor(diff%3600000/60000);
-  const s=Math.floor(diff%60000/1000);
-  countdown.textContent=`${d} gün ${h} saat ${m} dk ${s} sn`;
-}
-setInterval(update,1000); update();
+    const notes = ["Bugün senin günün!", "Işıldıyorsun Sena ✨", "Gülüşün dünyayı ısıtıyor.", "İyi ki doğdun!"];
+    setInterval(() => document.getElementById('time-note').innerText = notes[Math.floor(Math.random()*notes.length)], 8000);
 
-/* Candle */
-const candle=document.getElementById("candle");
-const flame=document.getElementById("flame");
-candle.onclick=()=>{
-  if(!flame.classList.contains("out")){
-    flame.classList.add("out");
-    alert("✨ Dileğin kabul olsun ✨");
-  }
-};
-
-/* Mode */
-const btn=document.getElementById("modeBtn");
-btn.onclick=()=>{
-  document.body.classList.toggle("light");
-  btn.textContent=document.body.classList.contains("light")?"☀️":"🌙";
-};
+    document.getElementById('themeBtn').onclick = () => {
+        document.body.classList.toggle('light');
+        document.getElementById('themeBtn').innerText = document.body.classList.contains('light') ? "☀️" : "🌙";
+    };
 </script>
-
 </body>
 </html>
