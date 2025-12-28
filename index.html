@@ -11,89 +11,98 @@
     body {
         font-family: 'Montserrat', sans-serif;
         background: radial-gradient(circle at top, #0d1b2a 0%, #000814 100%);
-        color: #fff;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        overflow-x: hidden;
-        transition: 0.8s;
-        padding: 40px 0;
+        color: #fff; min-height: 100vh; display: flex; flex-direction: column;
+        align-items: center; justify-content: center; overflow-x: hidden;
+        transition: 0.8s; padding: 40px 0;
     }
     body.light { background: #fff5f8; color: #333; }
 
-    /* YILDIZ TOZU */
-    .magic-star {
-        position: fixed; background: #ff9ecb; border-radius: 50%;
-        pointer-events: none; z-index: 9999; animation: starFade 1s forwards;
-    }
-    @keyframes starFade { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0); } }
-
-    /* YILDIZ YAĞMURU */
-    .shooting-star {
-        position: fixed; top: -10px; width: 2px; height: 50px;
-        background: linear-gradient(to bottom, rgba(255,255,255,0), #fff);
-        animation: shoot linear forwards; z-index: 1;
-    }
-    @keyframes shoot { 0% { transform: translateY(0) translateX(0) rotate(-20deg); opacity: 1; } 100% { transform: translateY(100vh) translateX(200px) rotate(-20deg); opacity: 0; } }
-
-    /* KALP */
+    /* SAĞ ALTTAKİ KALP */
     .heart-container { position: fixed; bottom: 80px; right: 30px; z-index: 200; pointer-events: auto; }
     .pulsing-heart { font-size: 35px; color: #ff4d6d; animation: heartBeat 1.2s infinite ease-in-out; }
     .heart-note { position: absolute; bottom: 45px; right: 0; background: #ff9ecb; color: white; font-size: 11px; padding: 5px 10px; border-radius: 15px; white-space: nowrap; opacity: 0; transition: 0.3s; }
     .heart-container:hover .heart-note { opacity: 1; transform: translateY(-5px); }
     @keyframes heartBeat { 0%, 30%, 60% { transform: scale(1); } 15%, 45% { transform: scale(1.2); } }
 
-    /* BAŞLIK */
-    .header-group { margin-bottom: 20px; text-align: center; z-index: 100; pointer-events: auto; }
+    /* BAŞLIK VE SÜSLEMELER */
+    .header-group { margin-bottom: 25px; text-align: center; z-index: 100; }
     .top-wish { font-size: 14px; letter-spacing: 6px; text-transform: uppercase; color: rgba(255,158,203,0.8); margin-bottom: 8px; font-weight: 600; }
     .name-wrapper { display: flex; align-items: center; justify-content: center; gap: 15px; }
-    .name { font-size: 45px; font-weight: bold; color: #ff9ecb; letter-spacing: 2px; transition: 2s; }
+    .name { font-size: 45px; font-weight: bold; color: #ff9ecb; letter-spacing: 2px; }
     .side-flower { font-size: 30px; animation: bounce 2s infinite ease-in-out; }
     @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
-    /* ANA KART */
-    .main-card {
-        background: rgba(255, 255, 255, 0.04); backdrop-filter: blur(12px);
-        border-radius: 30px; padding: 35px; border: 1px solid rgba(255, 255, 255, 0.1);
-        width: 90%; max-width: 420px; z-index: 100; text-align: center; margin-bottom: 15px; pointer-events: auto;
+    /* DİLEK FENERİ */
+    .lantern {
+        position: fixed; width: 35px; height: 45px;
+        background: rgba(255, 140, 50, 0.9); border-radius: 10px 10px 18px 18px;
+        box-shadow: 0 0 25px #ff7b00, inset 0 0 15px #fff700; z-index: 1000; pointer-events: none;
     }
-    .dominant-countdown { font-size: 28px; font-weight: 800; color: #ff9ecb; margin-bottom: 20px; text-shadow: 0 0 15px rgba(255, 158, 203, 0.5); transition: 2s; }
-    .birthday-text { font-size: 14px; line-height: 1.8; margin-bottom: 20px; font-weight: 300; }
+    .lantern::after {
+        content: ''; position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%);
+        width: 12px; height: 12px; background: #fff; border-radius: 50%; filter: blur(2px);
+        box-shadow: 0 0 12px #fff; animation: flicker 0.1s infinite alternate;
+    }
+    @keyframes flicker { from { opacity: 0.7; } to { opacity: 1; } }
 
-    /* KURABİYE VE PAPATYA */
-    .fortune-btn { background: #f1c40f; color: #333; border: none; padding: 12px 25px; border-radius: 20px; font-size: 14px; font-weight: 700; transition: 0.3s; cursor: pointer; }
-    .papatya-box { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border-radius: 25px; padding: 20px; border: 1px solid rgba(255, 255, 255, 0.08); width: 90%; max-width: 420px; z-index: 100; text-align: center; margin-bottom: 20px; }
-    .papatya { width: 100px; height: 100px; position: relative; margin: 10px auto; }
+    /* POP-UP */
+    #magic-popup-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.92); backdrop-filter: blur(15px);
+        display: none; align-items: center; justify-content: center;
+        z-index: 10000; opacity: 0; transition: opacity 0.5s ease;
+    }
+    .popup-content { 
+        background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 158, 203, 0.5); 
+        border-radius: 35px; padding: 40px; max-width: 420px; width: 85%; 
+        text-align: center; transform: scale(0.8); transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    #magic-popup-overlay.active { opacity: 1; display: flex; }
+    #magic-popup-overlay.active .popup-content { transform: scale(1); }
+
+    /* ANA KART */
+    .main-card { background: rgba(255, 255, 255, 0.04); backdrop-filter: blur(12px); border-radius: 30px; padding: 35px; border: 1px solid rgba(255, 255, 255, 0.1); width: 90%; max-width: 420px; z-index: 100; text-align: center; margin-bottom: 20px; }
+    .dominant-countdown { font-size: 28px; font-weight: 800; color: #ff9ecb; margin-bottom: 20px; }
+    
+    .time-note { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); font-family: 'Dancing Script', cursive; font-size: 20px; color: #ff9ecb; z-index: 200; opacity: 0; transition: 1s ease; text-align: center; width: 100%; pointer-events: none; }
+
+    /* DOĞUM GÜNÜ KARTLARI */
+    #surprise-container { display: none; justify-content: center; gap: 10px; margin-top: 15px; }
+    .gift-card { 
+        width: 85px; height: 50px; background: rgba(255,158,203,0.15); border: 1px dashed #ff9ecb; 
+        border-radius: 12px; display: flex; align-items: center; justify-content: center; 
+        font-family: 'Dancing Script'; font-size: 14px; cursor: pointer; color: transparent; transition: 0.4s;
+    }
+    .gift-card::before { content: '🎁'; color: #ff9ecb; font-size: 20px; }
+    .gift-card.open { background: #ff9ecb; color: white; border-style: solid; }
+    .gift-card.open::before { display: none; }
+
+    /* KARTLARDAN SONRA ÇIKACAK NOT */
+    #final-personal-note {
+        margin-top: 20px; font-family: 'Dancing Script'; font-size: 17px; color: #ff9ecb;
+        opacity: 0; transform: translateY(10px); transition: 1.5s all ease; line-height: 1.5;
+        display: none;
+    }
+    #final-personal-note.visible { opacity: 1; transform: translateY(0); display: block; }
+
+    .papatya-box { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border-radius: 25px; padding: 20px; width: 90%; max-width: 420px; z-index: 100; text-align: center; margin-bottom: 20px; }
     .petal { width: 16px; height: 45px; background: #fff; border-radius: 10px; position: absolute; left: 42px; bottom: 50px; transform-origin: bottom center; transition: 0.4s; }
     .petal.plucked { opacity: 0; transform: translateY(-40px) rotate(20deg); }
-
-    /* 30. SANİYE SÜRPRİZ NOTU */
-    .magic-footer-note {
-        position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%);
-        width: 90%; max-width: 400px; background: rgba(255, 158, 203, 0.15);
-        backdrop-filter: blur(15px); padding: 15px; border-radius: 20px;
-        border: 1px solid rgba(255, 158, 203, 0.3); text-align: center;
-        z-index: 1000; transition: 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    .magic-footer-note.reveal { bottom: 30px; }
-    .magic-footer-note p { font-family: 'Dancing Script', cursive; font-size: 18px; color: #ff9ecb; }
-
-    /* KONFETİ PARILTI */
-    .magic-glitter {
-        position: fixed; width: 6px; height: 6px; border-radius: 50%;
-        z-index: 999; pointer-events: none; animation: glitterFall linear forwards;
-    }
-    @keyframes glitterFall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
-
-    .toast-msg { position: fixed; bottom: 20px; left: -300px; background: rgba(255, 158, 203, 0.9); color: white; padding: 12px 20px; border-radius: 10px; font-size: 13px; z-index: 1000; transition: 0.5s ease-in-out; }
-    .toast-msg.show { left: 20px; }
-    .time-note { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); font-family: 'Dancing Script', cursive; font-size: 18px; color: #ff9ecb; z-index: 200; opacity: 0; transition: 1s ease; }
-    .theme-btn { position: fixed; top: 20px; right: 20px; border: none; background: rgba(255,255,255,0.1); color: #fff; width: 40px; height: 40px; border-radius: 50%; z-index: 200; }
+    .magic-star { position: fixed; background: #ff9ecb; border-radius: 50%; pointer-events: none; z-index: 9999; animation: starFade 1s forwards; }
+    @keyframes starFade { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0); } }
+    @keyframes glow { from { text-shadow: 0 0 10px #f1c40f; } to { text-shadow: 0 0 30px #f1c40f, 0 0 40px #ff9ecb; } }
+    .theme-btn { position: fixed; top: 20px; right: 20px; border: none; background: rgba(255,255,255,0.1); color: #fff; width: 40px; height: 40px; border-radius: 50%; z-index: 200; pointer-events: auto; }
 </style>
 </head>
 <body>
+
+<div id="magic-popup-overlay">
+    <div class="popup-content">
+        <h2 style="font-family: 'Dancing Script'; font-size: 34px; color: #ff9ecb; margin-bottom: 20px;">Sena İçin Yeni Yıl Dileği ❤️✨</h2>
+        <p style="font-size: 15px; line-height: 1.8; color: #ddd; margin-bottom: 25px;">Yeni yaşın ve 2026 yılı sana tüm hayallerini getirsin. Kalbinin güzelliği her anına yansısın. <br><br><b>İyi ki doğdun! 🎂</b></p>
+        <button id="closePopupBtn" style="background: #ff9ecb; color: white; border: none; padding: 12px 35px; border-radius: 25px; font-weight: 600; cursor: pointer;">İyi Ki Varsın ❤️</button>
+    </div>
+</div>
 
 <button class="theme-btn" id="themeBtn">🌙</button>
 
@@ -106,125 +115,129 @@
     <div class="top-wish">İyi Ki Doğdun</div>
     <div class="name-wrapper">
         <span class="side-flower">🌸</span>
-        <span class="name" id="mainName">SENA</span>
+        <span class="name">SENA</span>
         <span class="side-flower">🌸</span>
     </div>
 </div>
 
 <div class="main-card">
     <div id="countdown" class="dominant-countdown"></div>
-    <p class="birthday-text">Girdiğin bu yeni yaş, tüm cesaretini ve gülümsemeni ödüllendirsin. <br>Dünyayı güzelleştiren o enerjin hiç bitmesin.</p>
-    <button class="fortune-btn" id="fortuneBtn">🥠 Şans Kurabiyeni Aç</button>
+    <p style="font-size: 14px; line-height: 1.8; margin-bottom: 10px; font-weight: 300;">Girdiğin bu yeni yaş, tüm cesaretini ödüllendirsin. <br>Dünyayı güzelleştiren o enerjin hiç bitmesin.</p>
+    <p style="font-family: 'Dancing Script'; font-size: 22px; color: #ff9ecb; margin-bottom: 10px;">Mutlu Yıllar ✨</p>
+    
+    <div id="surprise-container">
+        <div class="gift-card" onclick="openGift(this, 'Gülüşün')"></div>
+        <div class="gift-card" onclick="openGift(this, 'Gözlerin')"></div>
+        <div class="gift-card" onclick="openGift(this, 'Enerjin')"></div>
+    </div>
+
+    <div id="final-personal-note">
+        Hepsi birbirinden güzel, yeni yaşında ve yeni yılında bunları daha çok görebilmek dileğiyle, nice senelere Sena 💖
+    </div>
+
+    <button id="fortuneBtn" style="background: #f1c40f; color: #333; border: none; padding: 12px 25px; border-radius: 20px; font-weight: 700; cursor: pointer; margin-top: 15px;">🥠 Şans Kurabiyeni Aç</button>
     <div id="wish-text" style="min-height: 25px; margin-top: 15px; color: #7bed9f; font-size: 14px; font-style: italic;"></div>
 </div>
 
 <div class="papatya-box">
-    <div class="papatya" id="papatya"><div style="width: 25px; height: 25px; background: #ffcc00; border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10;"></div></div>
-    <p id="result-text" style="color: #ff9ecb; font-weight: bold; font-size: 15px; min-height: 20px;"></p>
+    <div class="papatya" style="width: 100px; height: 100px; position: relative; margin: 10px auto;" id="papatya">
+        <div style="width: 25px; height: 25px; background: #ffcc00; border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10;"></div>
+    </div>
+    <p id="result-text" style="color: #ff9ecb; font-weight: bold; font-size: 15px;"></p>
 </div>
 
-<div class="wish-section">
-    <input type="text" id="wish-input" style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #ff9ecb88; background: rgba(255,255,255,0.05); color: white; margin-bottom: 12px; outline: none;" placeholder="Dileğini gökyüzüne yaz...">
-    <button style="background: #ff9ecb; color: white; border: none; padding: 12px 30px; border-radius: 25px; font-weight: 600;" id="send-wish-button">Dileği Uçur</button>
+<div style="text-align: center; width: 90%; max-width: 420px; z-index: 100; margin-bottom: 50px;">
+    <input type="text" id="wish-input" style="width: 100%; padding: 15px; border-radius: 15px; border: 1px solid #ff9ecb88; background: rgba(255,255,255,0.05); color: white; margin-bottom: 12px; outline: none;" placeholder="Dileğini gökyüzüne yaz...">
+    <button id="send-wish-button" style="background: #ff9ecb; color: white; border: none; padding: 15px 35px; border-radius: 25px; font-weight: 600; cursor: pointer;">Dileği Uçur</button>
 </div>
 
 <div id="time-note" class="time-note"></div>
-<div id="toast" class="toast-msg">✨ Sena, bugün gökyüzü bile senin için parlıyor!</div>
-
-<div id="magicNote" class="magic-footer-note">
-    <p>Senin parıltın, bu sayfadaki tüm yıldızlardan daha parlak... ✨</p>
-</div>
 
 <script>
-    // 30. SANİYE SÜRPRİZİ
+    const popupOverlay = document.getElementById('magic-popup-overlay');
     setTimeout(() => {
-        // Alt notu göster
-        document.getElementById('magicNote').classList.add('reveal');
-        
-        // İsmi ve sayacı parlat
-        document.getElementById('mainName').style.textShadow = "0 0 20px #ff9ecb";
-        document.getElementById('countdown').style.transform = "scale(1.1)";
-
-        // Parıltı yağmuru başlat
-        const colors = ['#ff9ecb', '#ff4d6d', '#fff', '#f1c40f'];
-        setInterval(() => {
-            const glitter = document.createElement('div');
-            glitter.className = 'magic-glitter';
-            glitter.style.left = Math.random() * 100 + 'vw';
-            glitter.style.top = '-10px';
-            glitter.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            glitter.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            glitter.style.opacity = Math.random();
-            document.body.appendChild(glitter);
-            setTimeout(() => glitter.remove(), 5000);
-        }, 150);
+        popupOverlay.style.display = 'flex';
+        setTimeout(() => { popupOverlay.classList.add('active'); }, 50);
     }, 30000);
 
-    // DİĞER FONKSİYONLAR (Aynen korundu)
-    setTimeout(() => {
-        for(let i=0; i<8; i++) {
-            setTimeout(() => {
-                const star = document.createElement('div');
-                star.className = 'shooting-star';
-                star.style.left = Math.random() * 100 + 'vw';
-                document.body.appendChild(star);
-                setTimeout(() => star.remove(), 3000);
-            }, i * 800);
-        }
-        document.getElementById('toast').classList.add('show');
-        setTimeout(() => document.getElementById('toast').classList.remove('show'), 6000);
-    }, 5000);
-
-    document.addEventListener('mousemove', (e) => {
-        const star = document.createElement('div');
-        star.className = 'magic-star';
-        star.style.left = e.clientX + 'px'; star.style.top = e.clientY + 'px';
-        const size = Math.random() * 8 + 2;
-        star.style.width = size + 'px'; star.style.height = size + 'px';
-        document.body.appendChild(star);
-        setTimeout(() => star.remove(), 1000);
-    });
-
-    const fortuneMessages = ["Bugün harika bir haber alacaksın! 💌", "Yıldızlar senin için parlıyor! ✨", "Dileğin çok yakında gerçek olacak. 🌈", "Şans senin gölgen olacak! 🍀"];
-    document.getElementById('fortuneBtn').onclick = () => {
-        document.getElementById('wish-text').innerText = "🥠 " + fortuneMessages[Math.floor(Math.random() * fortuneMessages.length)];
+    document.getElementById('closePopupBtn').onclick = function() {
+        popupOverlay.classList.remove('active');
+        setTimeout(() => { popupOverlay.style.display = 'none'; }, 500);
     };
 
-    const pContainer = document.getElementById('papatya');
-    for(let i=0; i<12; i++) {
-        const pet = document.createElement('div');
-        pet.className = 'petal';
-        pet.style.transform = `rotate(${i * 30}deg)`;
-        pet.onclick = function() {
-            this.classList.add('plucked');
-            const left = document.querySelectorAll('.petal:not(.plucked)').length;
-            document.getElementById('result-text').innerText = left > 0 ? (left % 2 === 0 ? "Seviyor" : "Çok Seviyor") : "Seni Çok Seviyor! 🌸";
-        };
-        pContainer.appendChild(pet);
+    // KARTLARI TAKİP ETME
+    let cardsOpened = 0;
+    function openGift(el, text) {
+        if (!el.classList.contains('open')) {
+            el.innerText = text;
+            el.classList.add('open');
+            cardsOpened++;
+            if (cardsOpened === 3) {
+                const note = document.getElementById('final-personal-note');
+                note.classList.add('visible');
+            }
+        }
     }
 
-    document.getElementById('send-wish-button').onclick = function() {
-        const input = document.getElementById('wish-input');
-        if (input.value.trim()) {
-            for(let i=0; i<15; i++) {
-                setTimeout(() => {
-                    const l = document.createElement('div');
-                    l.style.position = 'fixed'; l.style.width = '15px'; l.style.height = '20px';
-                    l.style.background = 'rgba(255, 200, 100, 0.8)'; l.style.borderRadius = '5px';
-                    l.style.boxShadow = '0 0 15px #ffcc00'; l.style.left = Math.random() * 100 + '%';
-                    l.style.bottom = '-20px'; l.style.zIndex = '2';
-                    l.animate([{ transform: 'translateY(0)', opacity: 1 }, { transform: 'translateY(-110vh)', opacity: 0 }], { duration: 10000, easing: 'linear' });
-                    document.body.appendChild(l);
-                    setTimeout(() => l.remove(), 10000);
-                }, i * 300);
-            }
-            input.value = '';
-        }
-    };
+    // KUTLAMA MODU
+    function triggerGrandFinale() {
+        document.getElementById('surprise-container').style.display = 'flex';
+        
+        setInterval(() => {
+            const b = document.createElement('div');
+            b.innerHTML = ['🎈', '💖', '🎂', '✨'][Math.floor(Math.random() * 4)];
+            b.style.position = 'fixed';
+            b.style.bottom = '-50px';
+            b.style.left = Math.random() * 100 + 'vw';
+            b.style.fontSize = '30px';
+            b.style.zIndex = '1000';
+            b.style.cursor = 'pointer';
+            document.body.appendChild(b);
+            const anim = b.animate([{ transform: 'translateY(0)', opacity: 1 }, { transform: `translateY(-110vh) translateX(${(Math.random()-0.5)*100}px)`, opacity: 0 }], { duration: 4000, easing: 'linear' });
+            b.onclick = () => { b.innerHTML = '✨'; setTimeout(() => b.remove(), 200); };
+            anim.onfinish = () => b.remove();
+        }, 500);
 
-    const notes = ["Bugün senin günün! ✨", "Işıldıyorsun Sena!", "Gülüşün dünyayı ısıtıyor. 🌸", "İyi ki doğdun!"];
+        for (let i = 0; i < 100; i++) {
+            setTimeout(() => {
+                const c = document.createElement('div');
+                c.style.position = 'fixed';
+                c.style.width = '8px'; c.style.height = '8px';
+                c.style.backgroundColor = ['#ff9ecb', '#f1c40f', '#fff'][Math.floor(Math.random()*3)];
+                c.style.left = Math.random() * 100 + 'vw';
+                c.style.top = '110vh';
+                c.animate([{ transform: 'translateY(0) rotate(0deg)', opacity: 1 }, { transform: `translateY(-120vh) translateX(${(Math.random()-0.5)*200}px) rotate(720deg)`, opacity: 0 }], { duration: 3000, easing: 'ease-out' });
+                document.body.appendChild(c);
+                setTimeout(() => c.remove(), 4000);
+            }, i * 30);
+        }
+    }
+
+    function updateCD() {
+        const target = new Date(2026, 0, 1);
+        const diff = target - new Date();
+        const countdownEl = document.getElementById('countdown');
+
+        if (diff <= 0) {
+            countdownEl.innerHTML = "<span style='color:#f1c40f; font-size:30px; animation: glow 1s infinite alternate;'>İYİ Kİ DOĞDUN SENA! ✨</span>";
+            if(!window.celebrationStarted) {
+                triggerGrandFinale();
+                window.celebrationStarted = true;
+            }
+            return;
+        }
+
+        const d = Math.floor(diff / 86400000);
+        const h = Math.floor((diff % 86400000) / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        countdownEl.innerText = `${d}g ${h}s ${m}d ${s}sn`;
+    }
+    setInterval(updateCD, 1000); updateCD();
+
+    const notes = ["Bugün senin günün! ✨", "Işıldıyorsun Sena!", "Gülüşün dünyayı ısıtıyor. 🌸", "İyi ki doğdun!", "Her şey gönlünce olsun..."];
     let noteIdx = 0;
-    function showNextNote() {
+    setInterval(() => {
         const noteEl = document.getElementById('time-note');
         if(!noteEl) return;
         noteEl.style.opacity = 0;
@@ -233,24 +246,55 @@
             noteEl.style.opacity = 1;
             noteIdx = (noteIdx + 1) % notes.length;
         }, 1000);
+    }, 5000);
+
+    document.getElementById('send-wish-button').onclick = function() {
+        const input = document.getElementById('wish-input');
+        if (!input.value.trim()) return;
+        for(let i=0; i<10; i++) {
+            setTimeout(() => {
+                const l = document.createElement('div');
+                l.className = 'lantern';
+                l.style.left = Math.random() * 90 + 5 + 'vw';
+                l.style.bottom = '-50px';
+                l.animate([{ transform: `translateY(0)`, opacity: 0 }, { transform: `translateY(-110vh)`, opacity: 1, offset: 0.1 }, { transform: `translateY(-120vh)`, opacity: 0 }], { duration: 8000 });
+                document.body.appendChild(l);
+                setTimeout(() => l.remove(), 8000);
+            }, i * 400);
+        }
+        input.value = '';
+    };
+
+    document.addEventListener('mousemove', (e) => {
+        const star = document.createElement('div');
+        star.className = 'magic-star';
+        star.style.left = e.clientX + 'px'; star.style.top = e.clientY + 'px';
+        const size = Math.random() * 5 + 2;
+        star.style.width = size + 'px'; star.style.height = size + 'px';
+        document.body.appendChild(star);
+        setTimeout(() => star.remove(), 1000);
+    });
+
+    document.getElementById('fortuneBtn').onclick = () => {
+        const msgs = ["Harika bir haber yolda! 💌", "Yıldızlar senin için parlıyor! ✨", "Şans hep seninle! 🍀"];
+        document.getElementById('wish-text').innerText = "🥠 " + msgs[Math.floor(Math.random() * msgs.length)];
+    };
+
+    const pContainer = document.getElementById('papatya');
+    for(let i=0; i<12; i++) {
+        const pet = document.createElement('div');
+        pet.className = 'petal'; pet.style.transform = `rotate(${i * 30}deg)`;
+        pet.onclick = function() {
+            this.classList.add('plucked');
+            const left = document.querySelectorAll('.petal:not(.plucked)').length;
+            document.getElementById('result-text').innerText = left > 0 ? (left % 2 === 0 ? "Seviyor" : "Çok Seviyor") : "Seni Çok Seviyor! 🌸";
+        };
+        pContainer.appendChild(pet);
     }
-    setInterval(showNextNote, 6000); showNextNote();
 
     document.getElementById('themeBtn').onclick = () => {
         document.body.classList.toggle('light');
-        document.getElementById('themeBtn').innerText = document.body.classList.contains('light') ? "☀️" : "🌙";
     };
-
-    function updateCD() {
-        const target = new Date(new Date().getFullYear() + 1, 0, 1);
-        const diff = target - new Date();
-        const d = Math.floor(diff / 86400000);
-        const h = Math.floor((diff % 86400000) / 3600000);
-        const m = Math.floor((diff % 3600000) / 60000);
-        const s = Math.floor((diff % 60000) / 1000);
-        document.getElementById('countdown').innerText = `${d}g ${h}s ${m}d ${s}sn`;
-    }
-    setInterval(updateCD, 1000); updateCD();
 </script>
 </body>
 </html>
